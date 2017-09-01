@@ -30,6 +30,23 @@ class TestWWHSInference(unittest.TestCase):
 
         self._print_success_message()
 
+    def test_pick_word(self):
+        with tf.Graph().as_default():
+            test_probabilities = np.array([0.1, 0.8, 0.05, 0.05])
+            test_int_to_vocab = {word_i: word for word_i, word in enumerate(['this', 'is', 'a', 'test'])}
+
+            pred_word = pick_word(test_probabilities, test_int_to_vocab)
+
+            # Check type
+            assert isinstance(pred_word, str), \
+                'Predicted word is wrong type. Found {} type.'.format(type(pred_word))
+
+            # Check word is from vocab
+            assert pred_word in test_int_to_vocab.values(), \
+                'Predicted word not found in int_to_vocab.'
+
+        self._print_success_message()
+
 
 if __name__ == '__main__':
     unittest.main()
